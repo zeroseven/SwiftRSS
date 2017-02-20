@@ -9,24 +9,25 @@
 import UIKit
 
 extension String {
-    var imageLinksFromHTMLString: [NSURL]
+    var imageLinksFromHTMLString: [URL]
     {
-        var matches = [NSURL]()
+        var matches = [URL]()
         
         var error: NSError?
         
-        var full_range: NSRange = NSMakeRange(0, self.characters.count)
+        let full_range: NSRange = NSMakeRange(0, self.characters.count)
         
         do {
-            let regex = try NSRegularExpression(pattern:"(https?)\\S*(png|jpg|jpeg|gif)", options:.CaseInsensitive)
-            regex.enumerateMatchesInString(self, options: NSMatchingOptions(rawValue: 0), range: full_range) {
+            let regex = try NSRegularExpression(pattern:"(https?)\\S*(png|jpg|jpeg|gif)", options:.caseInsensitive)
+            regex.enumerateMatches(in: self, options: NSRegularExpression.MatchingOptions(rawValue: 0), range: full_range) {
                 (result : NSTextCheckingResult?, _, _) in
                 
                 // didn't find a way to bridge an NSRange to Range<String.Index>
                 // bridging String to NSString instead
-                var str = (self as NSString).substringWithRange(result!.range) as String
-                
-                matches.append(NSURL(string: str)!)
+                let str = (self as NSString).substring(with: result!.range) as String
+                if let url = URL(string: str) {
+                    matches.append(url)
+                }
             }
         } catch var error1 as NSError {
             error = error1

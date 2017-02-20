@@ -13,20 +13,20 @@ class RSSFeed: NSObject, NSCoding {
     var items: [RSSItem]! = [RSSItem]()
     
     var title: String?
-    var link: NSURL?
+    var link: URL?
     
-    func setLinkAsString(let linkString: String!)
+    func setLinkAsString(_ linkString: String!)
     {
-        link = NSURL(string: linkString)
+        link = URL(string: linkString)
     }
     
     var feedDescription: String?
     var language: String?
-    var lastBuildDate: NSDate?
+    var lastBuildDate: Date?
     
-    func setlastBuildDate(let dateString: String!)
+    func setlastBuildDate(_ dateString: String!)
     {
-        lastBuildDate = NSDate.dateFromInternetDateTimeString(dateString)
+        lastBuildDate = Date.dateFromInternetDateTimeString(dateString)
     }
     
     var generator: String?
@@ -43,56 +43,56 @@ class RSSFeed: NSObject, NSCoding {
     {
         super.init()
         
-        title = aDecoder.decodeObjectForKey("title") as? String
-        link = aDecoder.decodeObjectForKey("link") as? NSURL
-        feedDescription = aDecoder.decodeObjectForKey("description") as? String
-        language = aDecoder.decodeObjectForKey("language") as? String
-        lastBuildDate = aDecoder.decodeObjectForKey("lastBuildDate") as? NSDate
-        generator = aDecoder.decodeObjectForKey("generator") as? String
-        copyright = aDecoder.decodeObjectForKey("copyright") as? String
+        title = aDecoder.decodeObject(forKey: "title") as? String
+        link = aDecoder.decodeObject(forKey: "link") as? URL
+        feedDescription = aDecoder.decodeObject(forKey: "description") as? String
+        language = aDecoder.decodeObject(forKey: "language") as? String
+        lastBuildDate = aDecoder.decodeObject(forKey: "lastBuildDate") as? Date
+        generator = aDecoder.decodeObject(forKey: "generator") as? String
+        copyright = aDecoder.decodeObject(forKey: "copyright") as? String
         
-        items = aDecoder.decodeObjectForKey("items") as! [RSSItem]
+        items = aDecoder.decodeObject(forKey: "items") as! [RSSItem]
     }
     
-    func encodeWithCoder(aCoder: NSCoder)
+    func encode(with aCoder: NSCoder)
     {
         if let title = self.title
         {
-            aCoder.encodeObject(title, forKey: "title")
+            aCoder.encode(title, forKey: "title")
         }
         
         if let link = self.link
         {
-            aCoder.encodeObject(link, forKey: "link")
+            aCoder.encode(link, forKey: "link")
         }
 
         if let feedDescription = self.feedDescription
         {
-            aCoder.encodeObject(feedDescription, forKey: "description")
+            aCoder.encode(feedDescription, forKey: "description")
         }
         
         if let language = self.language
         {
-            aCoder.encodeObject(language, forKey: "language")
+            aCoder.encode(language, forKey: "language")
         }
         
         if let lastBuildDate = self.lastBuildDate
         {
-            aCoder.encodeObject(lastBuildDate, forKey: "lastBuildDate")
+            aCoder.encode(lastBuildDate, forKey: "lastBuildDate")
         }
         
         if let generator = self.generator
         {
-            aCoder.encodeObject(generator, forKey: "generator")
+            aCoder.encode(generator, forKey: "generator")
         }
         
         
         if let copyright = self.copyright
         {
-            aCoder.encodeObject(copyright, forKey: "copyright")
+            aCoder.encode(copyright, forKey: "copyright")
         }
         
-        aCoder.encodeObject(self.items, forKey: "items")
+        aCoder.encode(self.items, forKey: "items")
     }
     
 }
